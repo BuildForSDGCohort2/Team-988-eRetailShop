@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "team-988-eretailshopfrontend",
-=======
-  "name": "team-988-eretailshop",
->>>>>>> e8b60efbaa73e06939669564e67ae6bd1e74a75d
   "version": "0.1.0",
   "private": true,
   "dependencies": {
