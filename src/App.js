@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./components/home";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import Footer from "./components/footer";
 
+//Components
 import Login from "./components/login";
 import Logout from "./components/logout";
 import Category from "./components/category";
@@ -17,24 +20,31 @@ import Clients from "./components/clients";
 import Orders from "./components/orders";
 import Sales from "./components/sales";
 import Purchases from "./components/purchases";
+import ConfirmPasswordChange from "./components/confirmPasswordChange";
 import auth from "./services/authService";
+
+//Forms
+import UserForm from "./components/Forms/userForm";
+import ChangePasswordForm from "./components/Forms/changePasswordForm";
 
 import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     const user = auth.getCurrentUser();
     if (user) setCurrentUser(user);
   }, []);
+
   return (
     <React.Fragment>
+      <ToastContainer />
       <Header user={currentUser} />
       <Container fluid>
         <Row>
-          {currentUser && <Sidebar />}
+          {currentUser.first_login_flag === false && <Sidebar />}
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
@@ -47,6 +57,12 @@ function App() {
             <Route path="/orders" component={Orders} />
             <Route path="/sales" component={Sales} />
             <Route path="/purchases" component={Purchases} />
+            <Route path="/userform/:id" component={UserForm} />
+            <Route path="/changepasswordform" component={ChangePasswordForm} />
+            <Route
+              path="/confirmpasswordchange"
+              component={ConfirmPasswordChange}
+            />
             <Route exact path="/" component={Login} />
           </Switch>
         </Row>

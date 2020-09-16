@@ -19,7 +19,7 @@ export default function Header({ user }) {
       >
         <span className="navbar-toggler-icon" />
       </button>
-      {user && (
+      {user.first_login_flag === false && (
         <React.Fragment>
           <form className="form-inline my-2 my-lg-0">
             <div className="input-group">
@@ -49,7 +49,9 @@ export default function Header({ user }) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                  <Dropdown.Item href="/changepasswordform">
+                    Change Password
+                  </Dropdown.Item>
                   <Dropdown.Item href="/logout">Sign out</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

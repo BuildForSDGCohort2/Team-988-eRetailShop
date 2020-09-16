@@ -11,6 +11,11 @@ export async function login(username, password) {
   return "OK";
 }
 
+export async function updateFirstLogin(userId, user) {
+  const { data: response } = await axios.put(apiEndpoint + "/" + userId, user);
+  if (response.data.status === 1) return "OK";
+}
+
 export function logout() {
   localStorage.removeItem(tokenKey);
 }
@@ -33,4 +38,5 @@ export default {
   logout,
   getCurrentUser,
   getJwt,
+  updateFirstLogin,
 };

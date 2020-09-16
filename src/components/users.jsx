@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { Table } from "react-bootstrap";
 import { FaTrashAlt, FaPencilAlt } from "react-icons/fa";
-import { getUsers } from "../services/userService";
-import { getProfiles } from "../services/profileService";
+import { getUsersProfiles, deleteUser } from "../services/userService";
 
 export default function Users() {
-  const [users, setUsers] = useState([]);
+  const [usersProfile, setUsersProfile] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      // You can await here
-      const { data: users } = await getUsers();
-      const { data: profiles } = await getProfiles();
-
-      const a3 = users.data.map((t1) => ({
-        ...t1,
-        ...profiles.data.find((t2) => t2.id === t1.profileid),
-      }));
-
-      console.log(users.data);
-      console.log(profiles.data);
-      console.log(a3);
-      if (users) setUsers(users.data);
+      const response = await getUsersProfiles();
+      if (response) setUsersProfile(response);
     }
     fetchData();
   }, []);
+
+  const handleDelete = async (userId) => {
+    try {
+      await deleteUser(userId);
+      const newUsers = usersProfile.filter((user) => user.id !== userId);
+      toast.success("This user is now deleted.");
+      setUsersProfile(newUsers);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("This user has already been deleted.");
+    }
+  };
 
   return (
     <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
@@ -33,9 +35,9 @@ export default function Users() {
         <h1 className="h2">Users</h1>
       </div>
 
-      <button type="button" className="btn btn-primary">
+      <Link className="btn btn-primary" to={"/userform/new"}>
         Add +
-      </button>
+      </Link>
       <div>
         <Table striped bordered hover>
           <thead>
@@ -52,21 +54,27 @@ export default function Users() {
             </tr>
           </thead>
           <tbody>
-            {users.map((u) => (
+            {usersProfile.map((u) => (
               <tr key={u.id}>
                 <th>{u.name}</th>
                 <th>{u.username}</th>
                 <th>{u.phone}</th>
                 <th>{u.email}</th>
                 <th>{u.status === true ? "Active" : "Disabled"}</th>
-                <th>{u.profileid}</th>
+                <th>{u.profilename}</th>
                 <th>{dateFormat(u.createdAt, "yyyy-mm-dd")}</th>
                 <th>{dateFormat(u.updatedAt, "yyyy-mm-dd")}</th>
                 <td>
-                  <button className="btn btn-warning btn-xs mr-1">
+                  <Link
+                    className="btn btn-warning btn-xs mr-1"
+                    to={"/userform/" + u.id}
+                  >
                     <FaPencilAlt />
-                  </button>
-                  <button className="btn btn-danger btn-xs mr-1">
+                  </Link>
+                  <button
+                    className="btn btn-danger btn-xs mr-1"
+                    onClick={() => handleDelete(u.id)}
+                  >
                     <FaTrashAlt />
                   </button>
                 </td>

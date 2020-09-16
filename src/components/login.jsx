@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import auth from "../services/authService";
 
@@ -14,10 +15,17 @@ export default function Login() {
     event.preventDefault();
     try {
       const response = await auth.login(username, password);
-      if (response === "OK") window.location = "/home";
+      if (response === "OK") {
+        const user = await auth.getCurrentUser();
+        if (user.first_login_flag === true) {
+          window.location = "/changepasswordform";
+        } else {
+          window.location = "/home";
+        }
+      }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
-        console.log(ex.response);
+        toast.error(ex.response.data);
       }
     }
   }
