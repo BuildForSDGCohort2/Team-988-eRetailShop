@@ -4,27 +4,32 @@ import { Container, Row } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Home from "./components/home";
-import Header from "./components/header";
-import Sidebar from "./components/sidebar";
-import Footer from "./components/footer";
-
-//Components
-import Login from "./components/login";
-import Logout from "./components/logout";
-import Category from "./components/category";
-import Products from "./components/products";
-import Suppliers from "./components/suppliers";
-import Users from "./components/users";
-import Clients from "./components/clients";
-import Orders from "./components/orders";
-import Sales from "./components/sales";
-import Purchases from "./components/purchases";
-import ConfirmPasswordChange from "./components/confirmPasswordChange";
 import auth from "./services/authService";
+
+//Includes Views
+import Header from "./components/includesViews/header";
+import Sidebar from "./components/includesViews/sidebar";
+import Footer from "./components/includesViews/footer";
+
+//Authentication
+import Login from "./components/authentication/login";
+import Logout from "./components/authentication/logout";
+import ConfirmPasswordChange from "./components/authentication/confirmPasswordChange";
+
+//Partial Views
+import Home from "./components/partialViews/home";
+import Category from "./components/partialViews/category";
+import Products from "./components/partialViews/products";
+import Suppliers from "./components/partialViews/suppliers";
+import Users from "./components/partialViews/users";
+import Clients from "./components/partialViews/clients";
+import Orders from "./components/partialViews/orders";
+import Sales from "./components/partialViews/sales";
+import Purchases from "./components/partialViews/purchases";
 
 //Forms
 import UserForm from "./components/Forms/userForm";
+import CategoryForm from "./components/Forms/categoryForm";
 import ChangePasswordForm from "./components/Forms/changePasswordForm";
 
 import logo from "./logo.svg";
@@ -59,6 +64,7 @@ function App() {
             <Route path="/purchases" component={Purchases} />
             <Route path="/userform/:id" component={UserForm} />
             <Route path="/changepasswordform" component={ChangePasswordForm} />
+            <Route path="/categoryform/:id" component={CategoryForm} />
             <Route
               path="/confirmpasswordchange"
               component={ConfirmPasswordChange}

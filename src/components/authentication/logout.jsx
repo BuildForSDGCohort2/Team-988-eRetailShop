@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import auth from "../services/authService";
+import auth from "../../services/authService";
 
 export default function Logout() {
   useEffect(() => {

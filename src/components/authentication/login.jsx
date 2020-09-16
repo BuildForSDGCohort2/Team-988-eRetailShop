@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import auth from "../services/authService";
+import auth from "../../services/authService";
 
 export default function Login() {
   const [username, setUsername] = useState("");
