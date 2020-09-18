@@ -3,54 +3,60 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Form, Col, Button } from "react-bootstrap";
 import {
-  getCategory,
-  createCategory,
-  updateCategory,
-} from "../../services/categoryService";
+  getClient,
+  createClient,
+  updateClient,
+} from "../../services/clientService";
 
-export default function CategoryForm(props) {
+export default function ClientForm(props) {
   const { register, handleSubmit, setValue } = useForm();
   const [title, setTitle] = useState("Update");
 
   const cID = props.match.params.id;
 
-  const populateCategories = async () => {
+  const populateClients = async () => {
     try {
       if (cID === "new") {
         setTitle("Add");
         return;
       }
-      const { data: category } = await getCategory(cID);
-      setValue("categoryname", category.data.name);
+      const { data: client } = await getClient(cID);
+      setValue("clientname", client.data.name);
+      setValue("address", client.data.address);
+      setValue("phone", client.data.phone);
+      setValue("email", client.data.email);
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
-        toast.error("Category not found.");
+        toast.error("Client not found.");
     }
   };
 
   useEffect(() => {
     async function fetchData() {
-      populateCategories();
+      populateClients();
     }
     fetchData();
   }, []);
 
   const onSubmit = async (data) => {
-    const categoryData = {
-      name: data.categoryname,
+    const clientData = {
+      name: data.clientname,
+      address: data.address,
+      phone: data.phone,
+      email: data.email,
     };
     try {
       if (cID === "new") {
-        const { data: response } = await createCategory(categoryData);
+        const { data: response } = await createClient(clientData);
         if (response.data.status === 1) {
-          window.location = "/category";
+          window.location = "/clients";
         } else {
           toast.error(response.data.statusMessage);
         }
       } else {
-        const { data: response } = await updateCategory(cID, categoryData);
+        const { data: response } = await updateClient(cID, clientData);
         if (response.data.status === 1) {
-          window.location = "/category";
+          window.location = "/clients";
         } else {
           toast.error(response.data.statusMessage);
         }
@@ -71,9 +77,36 @@ export default function CategoryForm(props) {
             <Form.Group controlId="formBasicName">
               <Form.Label>Category Name</Form.Label>
               <Form.Control
-                name="categoryname"
+                name="clientname"
                 type="text"
                 placeholder="Enter Category name"
+                ref={register}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                name="address"
+                type="text"
+                placeholder="Enter Address"
+                ref={register}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                name="phone"
+                type="text"
+                placeholder="Enter Phoone number"
+                ref={register}
+              />
+            </Form.Group>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                name="email"
+                type="email"
+                placeholder="Enter Email"
                 ref={register}
               />
             </Form.Group>

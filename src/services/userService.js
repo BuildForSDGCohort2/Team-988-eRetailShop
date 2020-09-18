@@ -5,21 +5,13 @@ const axios = require("axios");
 const apiEndpoint = apiUrl + "user";
 const profileApiEndpoint = apiUrl + "profile";
 
+const config = { headers: { "x-auth-token": auth.getJwt() } };
+
 export async function getUser(userId) {
-  const config = {
-    headers: {
-      "x-auth-token": auth.getJwt(),
-    },
-  };
   return await axios.get(apiEndpoint + "/" + userId, config);
 }
 
 export async function getUsersProfiles() {
-  const config = {
-    headers: {
-      "x-auth-token": auth.getJwt(),
-    },
-  };
   const { data: users } = await axios.get(apiEndpoint, config);
   const { data: profiles } = await axios.get(profileApiEndpoint, config);
   const profilesTransformed = profiles.data.map(({ id, ...rest }) => ({
@@ -38,19 +30,9 @@ export async function createUser(user) {
 }
 
 export async function updateUser(userId, user) {
-  const config = {
-    headers: {
-      "x-auth-token": auth.getJwt(),
-    },
-  };
   return await axios.put(apiEndpoint + "/" + userId, user, config);
 }
 
 export async function deleteUser(userId) {
-  const config = {
-    headers: {
-      "x-auth-token": auth.getJwt(),
-    },
-  };
   return await axios.delete(apiEndpoint + "/" + userId, config);
 }

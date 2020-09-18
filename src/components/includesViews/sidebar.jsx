@@ -16,6 +16,12 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to={"/pos"}>
+              <span data-feather="file"></span>
+              POS
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link className="nav-link" to={"/category"}>
               <span data-feather="file"></span>
               Category

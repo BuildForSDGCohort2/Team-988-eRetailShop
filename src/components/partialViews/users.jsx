@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { Table } from "react-bootstrap";
@@ -8,11 +9,15 @@ import { getUsersProfiles, deleteUser } from "../../services/userService";
 
 export default function Users() {
   const [usersProfile, setUsersProfile] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       const response = await getUsersProfiles();
-      if (response) setUsersProfile(response);
+      if (response) {
+        setLoading(false);
+        setUsersProfile(response);
+      }
     }
     fetchData();
   }, []);
@@ -34,10 +39,15 @@ export default function Users() {
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 className="h2">Users</h1>
       </div>
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <Link className="btn btn-primary" to={"/userform/new"}>
+          Add +
+        </Link>
+      </div>
 
-      <Link className="btn btn-primary" to={"/userform/new"}>
-        Add +
-      </Link>
+      {loading && (
+        <Loader type="ThreeDots" color="#0057e7" height="50" width="50" />
+      )}
       <div>
         <Table striped bordered hover>
           <thead>
@@ -56,14 +66,14 @@ export default function Users() {
           <tbody>
             {usersProfile.map((u) => (
               <tr key={u.id}>
-                <th>{u.name}</th>
-                <th>{u.username}</th>
-                <th>{u.phone}</th>
-                <th>{u.email}</th>
-                <th>{u.status === true ? "Active" : "Disabled"}</th>
-                <th>{u.profilename}</th>
-                <th>{dateFormat(u.createdAt, "yyyy-mm-dd")}</th>
-                <th>{dateFormat(u.updatedAt, "yyyy-mm-dd")}</th>
+                <td>{u.name}</td>
+                <td>{u.username}</td>
+                <td>{u.phone}</td>
+                <td>{u.email}</td>
+                <td>{u.status === true ? "Active" : "Disabled"}</td>
+                <td>{u.profilename}</td>
+                <td>{dateFormat(u.createdAt, "yyyy-mm-dd")}</td>
+                <td>{dateFormat(u.updatedAt, "yyyy-mm-dd")}</td>
                 <td>
                   <Link
                     className="btn btn-warning btn-xs mr-1"

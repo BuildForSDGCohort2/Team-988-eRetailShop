@@ -26,11 +26,16 @@ import Clients from "./components/partialViews/clients";
 import Orders from "./components/partialViews/orders";
 import Sales from "./components/partialViews/sales";
 import Purchases from "./components/partialViews/purchases";
+import Pos from "./components/partialViews/pos";
 
 //Forms
 import UserForm from "./components/Forms/userForm";
 import CategoryForm from "./components/Forms/categoryForm";
 import ChangePasswordForm from "./components/Forms/changePasswordForm";
+
+import ClientForm from "./components/Forms/clientForm";
+import ProductForm from "./components/Forms/productForm";
+import SupplierForm from "./components/Forms/supplierForm";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -51,9 +56,16 @@ function App() {
         <Row>
           {currentUser.first_login_flag === false && <Sidebar />}
           <Switch>
+            {/* Authentication Routes */}
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/home" component={Home} />
+            <Route
+              path="/confirmpasswordchange"
+              component={ConfirmPasswordChange}
+            />
+
+            {/* Partials Routes */}
             <Route path="/category" component={Category} />
             <Route path="/products" component={Products} />
             <Route path="/suppliers" component={Suppliers} />
@@ -62,13 +74,17 @@ function App() {
             <Route path="/orders" component={Orders} />
             <Route path="/sales" component={Sales} />
             <Route path="/purchases" component={Purchases} />
+            <Route path="/pos" component={Pos} />
+
+            {/* Forms Routes */}
             <Route path="/userform/:id" component={UserForm} />
             <Route path="/changepasswordform" component={ChangePasswordForm} />
             <Route path="/categoryform/:id" component={CategoryForm} />
-            <Route
-              path="/confirmpasswordchange"
-              component={ConfirmPasswordChange}
-            />
+            <Route path="/clientform/:id" component={ClientForm} />
+            <Route path="/productform/:id" component={ProductForm} />
+            <Route path="/supplierform/:id" component={SupplierForm} />
+
+            {/* Default Route */}
             <Route exact path="/" component={Login} />
           </Switch>
         </Row>
