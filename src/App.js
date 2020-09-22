@@ -4,6 +4,10 @@ import { Container, Row } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//Redux Store
+import configureStore from "./store/configureStore";
+import { Provider } from "react-redux";
+
 import auth from "./services/authService";
 
 //Includes Views
@@ -40,6 +44,8 @@ import SupplierForm from "./components/Forms/supplierForm";
 import logo from "./logo.svg";
 import "./App.css";
 
+const store = configureStore();
+
 function App() {
   const [currentUser, setCurrentUser] = useState({});
 
@@ -74,7 +80,9 @@ function App() {
             <Route path="/orders" component={Orders} />
             <Route path="/sales" component={Sales} />
             <Route path="/purchases" component={Purchases} />
-            <Route path="/pos" component={Pos} />
+            <Provider store={store}>
+              <Route path="/pos" component={Pos} />
+            </Provider>
 
             {/* Forms Routes */}
             <Route path="/userform/:id" component={UserForm} />

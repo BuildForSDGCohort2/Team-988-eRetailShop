@@ -15,6 +15,10 @@ export async function getProduct(productId) {
   return await axios.get(apiEndpoint + "/" + productId, config);
 }
 
+export async function getProductByCateg(categId) {
+  return await axios.get(apiEndpoint + "/categ/" + categId, config);
+}
+
 export async function createProduct(product) {
   return await axios.post(apiEndpoint, product, config);
 }
