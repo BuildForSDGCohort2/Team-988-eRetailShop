@@ -24,12 +24,10 @@ import ConfirmPasswordChange from "./components/authentication/confirmPasswordCh
 import Home from "./components/partialViews/home";
 import Category from "./components/partialViews/category";
 import Products from "./components/partialViews/products";
-import Suppliers from "./components/partialViews/suppliers";
 import Users from "./components/partialViews/users";
 import Clients from "./components/partialViews/clients";
-import Orders from "./components/partialViews/orders";
+import Order from "./components/partialViews/order";
 import Sales from "./components/partialViews/sales";
-import Purchases from "./components/partialViews/purchases";
 import Pos from "./components/partialViews/pos";
 
 //Forms
@@ -39,7 +37,6 @@ import ChangePasswordForm from "./components/Forms/changePasswordForm";
 
 import ClientForm from "./components/Forms/clientForm";
 import ProductForm from "./components/Forms/productForm";
-import SupplierForm from "./components/Forms/supplierForm";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -62,10 +59,19 @@ function App() {
         <Row>
           {currentUser.first_login_flag === false && <Sidebar />}
           <Switch>
+            {/* Default Route */}
+            <Route exact path="/" component={Login} />
             {/* Authentication Routes */}
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/home" component={Home} />
+
+            {/* Forms Routes */}
+            <Route path="/userform/:id" component={UserForm} />
+            <Route path="/changepasswordform" component={ChangePasswordForm} />
+            <Route path="/categoryform/:id" component={CategoryForm} />
+            <Route path="/clientform/:id" component={ClientForm} />
+            <Route path="/productform/:id" component={ProductForm} />
             <Route
               path="/confirmpasswordchange"
               component={ConfirmPasswordChange}
@@ -74,26 +80,15 @@ function App() {
             {/* Partials Routes */}
             <Route path="/category" component={Category} />
             <Route path="/products" component={Products} />
-            <Route path="/suppliers" component={Suppliers} />
             <Route path="/users" component={Users} />
             <Route path="/clients" component={Clients} />
-            <Route path="/orders" component={Orders} />
-            <Route path="/sales" component={Sales} />
-            <Route path="/purchases" component={Purchases} />
+            <Route path="/sales/:id" component={Sales} />
+            <Route path="/order" component={Order} />
             <Provider store={store}>
-              <Route path="/pos" component={Pos} />
+              <Route path="/pos">
+                <Pos user={currentUser} />
+              </Route>
             </Provider>
-
-            {/* Forms Routes */}
-            <Route path="/userform/:id" component={UserForm} />
-            <Route path="/changepasswordform" component={ChangePasswordForm} />
-            <Route path="/categoryform/:id" component={CategoryForm} />
-            <Route path="/clientform/:id" component={ClientForm} />
-            <Route path="/productform/:id" component={ProductForm} />
-            <Route path="/supplierform/:id" component={SupplierForm} />
-
-            {/* Default Route */}
-            <Route exact path="/" component={Login} />
           </Switch>
         </Row>
       </Container>

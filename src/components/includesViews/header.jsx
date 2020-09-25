@@ -5,7 +5,7 @@ import { Dropdown } from "react-bootstrap";
 export default function Header({ user }) {
   return (
     <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <Link className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" to={"#"}>
+      <Link className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" to={"/home"}>
         eRetailShop
       </Link>
       <button

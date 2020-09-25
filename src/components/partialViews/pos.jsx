@@ -1,35 +1,58 @@
 import React, { useState, useEffect } from "react";
 import PosTable from "./posTable";
-import { Form, Row, Col, ListGroup, Spinner } from "react-bootstrap";
+import { Form, Row, Col, ListGroup, Spinner, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
-import Loader from "react-loader-spinner";
-import { Link } from "react-router-dom";
-import { FaTrashAlt, FaCartPlus } from "react-icons/fa";
+
+import { FaCartPlus } from "react-icons/fa";
 import { getCategories } from "../../services/categoryService";
 import { getProductByCateg } from "../../services/productService";
+import { getClients } from "../../services/clientService";
 
 import { useDispatch } from "react-redux";
-import { itemsAdded, itemRemoved, cartCleared } from "../../store/cart";
+import { itemsAdded, customerAdded } from "../../store/cart";
 
-export default function Pos() {
+export default function Pos({ user }) {
   const dispatch = useDispatch();
 
   const [categories, setCategories] = useState([]);
+  const [clients, setClients] = useState([]);
   const [products, setProducts] = useState([]);
   const [qty, setQty] = useState(1);
   const [loadingCateg, setLoadingCateg] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(false);
+  const [clientID, setClientID] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const { data: response } = await getCategories();
-      if (response) {
+      const { data: clientsresponse } = await getClients();
+      if (response && clientsresponse) {
         setLoadingCateg(false);
         setCategories(response.data);
+        setClients(clientsresponse.data);
       }
     }
     fetchData();
   }, []);
+
+  const handleClient = (e) => {
+    setClientID(e.target.value);
+    const clientid = e.target.value;
+    if (Number(clientid) > 0) {
+      const cl = clients.filter((c) => c.id === Number(clientid));
+      dispatch(
+        customerAdded({
+          customerItem: {
+            id: cl[0].id,
+            name: cl[0].name,
+            email: cl[0].email,
+            phone: cl[0].phone,
+            address: cl[0].address,
+          },
+        })
+      );
+    }
+  };
 
   const getProducts = async (categoryId) => {
     setLoadingProduct(true);
@@ -83,45 +106,67 @@ export default function Pos() {
           </ListGroup>
         </Col>
         <Col sm={4}>
-          <Form.Row>
-            <Form.Label column sm={8}>
-              Purchase Quantity
-            </Form.Label>
-            <Col xs={5}>
-              <Form.Control
-                type="number"
-                value={qty}
-                onChange={(e) => setQty(e.target.value)}
-              />
-            </Col>
-          </Form.Row>
+          <Card>
+            <Card.Header bg="primary">
+              <Form.Row>
+                <Col xs={5}>
+                  <Form.Label column sm={8}>
+                    Quantity
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                  />
+                </Col>
+                <Col xs={5}>
+                  <Form.Label column sm={8}>
+                    Customer
+                  </Form.Label>
 
-          <br />
-          <ListGroup>
-            <ListGroup.Item active>
+                  <Form.Control
+                    as="select"
+                    className="mr-sm-2"
+                    id="inlineFormCustomSelect"
+                    custom
+                    onChange={handleClient}
+                    value={clientID}
+                  >
+                    <option value="0">Select</option>
+                    {clients.map((client) => (
+                      <option key={client.id} value={client.id}>
+                        {client.name}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Col>
+              </Form.Row>
+            </Card.Header>
+            <Card.Header>
               {loadingProduct && <Spinner animation="border" size="sm" />}
               Products
-            </ListGroup.Item>
-          </ListGroup>
-          <br />
-          <ul className="products">
-            {products.map((p) => (
-              <li key={p.id}>
-                <h3>{p.productname}</h3>
-                <small>RWF {p.sellingPrice}</small>
-                <button
-                  type="button"
-                  className="btn btn-success  btn-sm"
-                  onClick={() => addItems(p.id)}
-                >
-                  <FaCartPlus />
-                </button>
-              </li>
-            ))}
-          </ul>
+            </Card.Header>
+            <Card.Body>
+              <ul className="products">
+                {products.map((p) => (
+                  <li key={p.id}>
+                    <h3>{p.productname}</h3>
+                    <small>RWF {p.sellingPrice}</small>
+                    <button
+                      type="button"
+                      className="btn btn-success  btn-sm"
+                      onClick={() => addItems(p.id)}
+                    >
+                      <FaCartPlus />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </Card.Body>
+          </Card>
         </Col>
         <Col>
-          <PosTable />
+          <PosTable userData={user} />
         </Col>
       </Row>
     </main>

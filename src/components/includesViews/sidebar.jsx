@@ -34,12 +34,6 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to={"/suppliers"}>
-              <span data-feather="users"></span>
-              Suppliers
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link" to={"/users"}>
               <span data-feather="bar-chart-2"></span>
               Users
@@ -52,27 +46,9 @@ export default function Sidebar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to={"/orders"}>
+            <Link className="nav-link" to={"/order"}>
               <span data-feather="bar-chart-2"></span>
               Orders
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/sales"}>
-              <span data-feather="bar-chart-2"></span>
-              Sales
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/purchases"}>
-              <span data-feather="bar-chart-2"></span>
-              Purchases
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/login"}>
-              <span data-feather="layers"></span>
-              Login
             </Link>
           </li>
           <li className="nav-item">
@@ -104,18 +80,6 @@ export default function Sidebar() {
             <Link className="nav-link" to={"#"}>
               <span data-feather="file-text"></span>
               Last quarter
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"#"}>
-              <span data-feather="file-text"></span>
-              Social engagement
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"#"}>
-              <span data-feather="file-text"></span>
-              Year-end sale
             </Link>
           </li>
         </ul>

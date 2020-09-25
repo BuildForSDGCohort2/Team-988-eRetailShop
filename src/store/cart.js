@@ -2,12 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let lastId = 0;
 const initialState = {
+  customer: {},
   items: [],
 };
 const slice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    customerAdded: (cart, action) => {
+      const { customerItem } = action.payload;
+      cart.customer = customerItem;
+    },
     itemsAdded: (cart, action) => {
       const { selectedItems } = action.payload;
       selectedItems.id = ++lastId;
@@ -31,6 +36,7 @@ const slice = createSlice({
 
 //Actions
 export const {
+  customerAdded,
   itemsAdded,
   itemUpdated,
   itemRemoved,
