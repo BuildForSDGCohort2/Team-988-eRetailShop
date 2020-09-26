@@ -7,9 +7,9 @@ const apiEndpoint = apiUrl + "momopay";
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 
 export async function processPayment(payData) {
-  return await axios.post(apiEndpoint + "/pay", payData);
+  return await axios.post(apiEndpoint + "/pay", payData, config);
 }
 
 export async function getTransactionStatus(tnxData) {
-  return await axios.post(apiEndpoint + "/transactionstatus", tnxData);
+  return await axios.post(apiEndpoint + "/transactionstatus", tnxData, config);
 }

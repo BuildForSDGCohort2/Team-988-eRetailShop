@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { Table } from "react-bootstrap";
+import { Pagination } from "@material-ui/lab";
+import usePagination from "../common/usePagination";
 import Loader from "react-loader-spinner";
 import { getOrdersDetails } from "../../services/orderService";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 5;
 
   useEffect(() => {
     async function fetchData() {
@@ -19,6 +23,15 @@ export default function Order() {
     }
     fetchData();
   }, []);
+
+  const countPage = Math.ceil(orders.length / PER_PAGE);
+  const _DATA = usePagination(orders, PER_PAGE);
+
+  const handlePageChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+
   return (
     <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -45,7 +58,7 @@ export default function Order() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((c) => (
+            {_DATA.currentData().map((c) => (
               <tr key={c.id}>
                 <td>
                   <Link to={"/sales/" + c.id}>{c.orderNumber}</Link>
@@ -63,6 +76,14 @@ export default function Order() {
             ))}
           </tbody>
         </Table>
+        <Pagination
+          count={countPage}
+          size="large"
+          page={page}
+          variant="outlined"
+          shape="rounded"
+          onChange={handlePageChange}
+        />
       </div>
     </main>
   );

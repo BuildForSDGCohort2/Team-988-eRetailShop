@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,12 +31,7 @@ import Sales from "./components/partialViews/sales";
 import Pos from "./components/partialViews/pos";
 
 //Forms
-import UserForm from "./components/Forms/userForm";
-import CategoryForm from "./components/Forms/categoryForm";
 import ChangePasswordForm from "./components/Forms/changePasswordForm";
-
-import ClientForm from "./components/Forms/clientForm";
-import ProductForm from "./components/Forms/productForm";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -67,11 +62,7 @@ function App() {
             <Route path="/home" component={Home} />
 
             {/* Forms Routes */}
-            <Route path="/userform/:id" component={UserForm} />
             <Route path="/changepasswordform" component={ChangePasswordForm} />
-            <Route path="/categoryform/:id" component={CategoryForm} />
-            <Route path="/clientform/:id" component={ClientForm} />
-            <Route path="/productform/:id" component={ProductForm} />
             <Route
               path="/confirmpasswordchange"
               component={ConfirmPasswordChange}
