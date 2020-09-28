@@ -1,15 +1,14 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import auth from "../services/authService";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "momopay";
+const apiEndpoint = "momopay";
 
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 
 export async function processPayment(payData) {
-  return await axios.post(apiEndpoint + "/pay", payData, config);
+  return await http.post(apiEndpoint + "/pay", payData, config);
 }
 
 export async function getTransactionStatus(tnxData) {
-  return await axios.post(apiEndpoint + "/transactionstatus", tnxData, config);
+  return await http.post(apiEndpoint + "/transactionstatus", tnxData, config);
 }

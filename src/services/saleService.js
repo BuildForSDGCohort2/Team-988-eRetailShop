@@ -1,35 +1,34 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import auth from "./authService";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "sale";
-const productsApiEndpoint = apiUrl + "products";
+const apiEndpoint = "sale";
+const productsApiEndpoint = "products";
 
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 
 export async function getSales() {
-  return await axios.get(apiEndpoint, config);
+  return await http.get(apiEndpoint, config);
 }
 
 export async function getSale(saleId) {
-  return await axios.get(apiEndpoint + "/" + saleId, config);
+  return await http.get(apiEndpoint + "/" + saleId, config);
 }
 
 export async function createSale(sale) {
-  return await axios.post(apiEndpoint, sale, config);
+  return await http.post(apiEndpoint, sale, config);
 }
 
 export async function updateSale(saleId, sale) {
-  return await axios.put(apiEndpoint + "/" + saleId, sale, config);
+  return await http.put(apiEndpoint + "/" + saleId, sale, config);
 }
 
 export async function deleteSale(saleId) {
-  return await axios.delete(apiEndpoint + "/" + saleId, config);
+  return await http.delete(apiEndpoint + "/" + saleId, config);
 }
 
 export async function getSalesDetails() {
-  const { data: sales } = await axios.get(apiEndpoint, config);
-  const { data: products } = await axios.get(productsApiEndpoint, config);
+  const { data: sales } = await http.get(apiEndpoint, config);
+  const { data: products } = await http.get(productsApiEndpoint, config);
   const productsTransformed = products.data.map(
     ({ id, createdAt, updatedAt, ...rest }) => ({
       ...rest,

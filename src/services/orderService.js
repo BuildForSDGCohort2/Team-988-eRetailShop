@@ -1,37 +1,36 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import auth from "./authService";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "order";
-const clientsApiEndpoint = apiUrl + "clients";
-const userApiEndpoint = apiUrl + "user";
+const apiEndpoint = "order";
+const clientsApiEndpoint = "clients";
+const userApiEndpoint = "user";
 
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 
 export async function getOrders() {
-  return await axios.get(apiEndpoint, config);
+  return await http.get(apiEndpoint, config);
 }
 
 export async function getOrder(orderId) {
-  return await axios.get(apiEndpoint + "/" + orderId, config);
+  return await http.get(apiEndpoint + "/" + orderId, config);
 }
 
 export async function createOrder(order) {
-  return await axios.post(apiEndpoint, order, config);
+  return await http.post(apiEndpoint, order, config);
 }
 
 export async function updateOrder(orderId, order) {
-  return await axios.put(apiEndpoint + "/" + orderId, order, config);
+  return await http.put(apiEndpoint + "/" + orderId, order, config);
 }
 
 export async function deleteOrder(orderId) {
-  return await axios.delete(apiEndpoint + "/" + orderId, config);
+  return await http.delete(apiEndpoint + "/" + orderId, config);
 }
 
 export async function getOrdersDetails() {
-  const { data: orders } = await axios.get(apiEndpoint, config);
-  const { data: clients } = await axios.get(clientsApiEndpoint, config);
-  const { data: users } = await axios.get(userApiEndpoint, config);
+  const { data: orders } = await http.get(apiEndpoint, config);
+  const { data: clients } = await http.get(clientsApiEndpoint, config);
+  const { data: users } = await http.get(userApiEndpoint, config);
   const clientsTransformed = clients.data.map(({ id, name, ...rest }) => ({
     ...rest,
     clientname: name,

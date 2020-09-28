@@ -1,9 +1,8 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import auth from "./authService";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "profile";
+const apiEndpoint = "profile";
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 export async function getProfiles() {
-  return await axios.get(apiEndpoint, config);
+  return await http.get(apiEndpoint, config);
 }

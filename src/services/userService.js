@@ -1,19 +1,18 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import auth from "../services/authService";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "user";
-const profileApiEndpoint = apiUrl + "profile";
+const apiEndpoint = "user";
+const profileApiEndpoint = "profile";
 
 const config = { headers: { "x-auth-token": auth.getJwt() } };
 
 export async function getUser(userId) {
-  return await axios.get(apiEndpoint + "/" + userId, config);
+  return await http.get(apiEndpoint + "/" + userId, config);
 }
 
 export async function getUsersProfiles() {
-  const { data: users } = await axios.get(apiEndpoint, config);
-  const { data: profiles } = await axios.get(profileApiEndpoint, config);
+  const { data: users } = await http.get(apiEndpoint, config);
+  const { data: profiles } = await http.get(profileApiEndpoint, config);
   const profilesTransformed = profiles.data.map(({ id, ...rest }) => ({
     ...rest,
     pid: id,
@@ -26,13 +25,13 @@ export async function getUsersProfiles() {
 }
 
 export async function createUser(user) {
-  return await axios.post(apiEndpoint, user);
+  return await http.post(apiEndpoint, user);
 }
 
 export async function updateUser(userId, user) {
-  return await axios.put(apiEndpoint + "/" + userId, user, config);
+  return await http.put(apiEndpoint + "/" + userId, user, config);
 }
 
 export async function deleteUser(userId) {
-  return await axios.delete(apiEndpoint + "/" + userId, config);
+  return await http.delete(apiEndpoint + "/" + userId, config);
 }

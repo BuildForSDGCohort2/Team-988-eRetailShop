@@ -1,18 +1,17 @@
-import { apiUrl } from "../config.json";
+import http from "./httpService";
 import jwtDecode from "jwt-decode";
-const axios = require("axios");
 
-const apiEndpoint = apiUrl + "auth";
+const apiEndpoint = "auth";
 const tokenKey = "token";
 
 export async function login(username, password) {
-  const jwt = await axios.post(apiEndpoint, { username, password });
+  const jwt = await http.post(apiEndpoint, { username, password });
   if (jwt.status === 200) localStorage.setItem(tokenKey, jwt.data);
   return "OK";
 }
 
 export async function updateFirstLogin(userId, user) {
-  const { data: response } = await axios.put(apiEndpoint + "/" + userId, user);
+  const { data: response } = await http.put(apiEndpoint + "/" + userId, user);
   if (response.data.status === 1) return "OK";
 }
 
