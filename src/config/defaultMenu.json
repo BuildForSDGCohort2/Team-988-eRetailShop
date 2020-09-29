@@ -1,0 +1,12 @@
+[
+  {
+    "pathname": "/home",
+    "description": "admin,  inventory manager, store manager ",
+    "accessLevel": [1, 3, 4]
+  },
+  {
+    "pathname": "/pos",
+    "description": "Cashier",
+    "accessLevel": [2]
+  }
+]

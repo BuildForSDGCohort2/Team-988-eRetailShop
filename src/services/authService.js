@@ -6,7 +6,6 @@ const tokenKey = "token";
 
 export async function login(username, password) {
   const jwt = await http.post(apiEndpoint, { username, password });
-  console.log("Error ya network", jwt);
   if (jwt.status === 200) localStorage.setItem(tokenKey, jwt.data);
   return "OK";
 }

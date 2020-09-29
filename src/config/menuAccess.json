@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "pathname": "home",
+    "description": "Dashboard",
+    "accessLevel": [1, 3, 4]
+  },
+  {
+    "id": 2,
+    "pathname": "category",
+    "description": "Category",
+    "accessLevel": [1, 3, 4]
+  },
+  {
+    "id": 3,
+    "pathname": "products",
+    "description": "Products",
+    "accessLevel": [1, 3, 4]
+  },
+  {
+    "id": 4,
+    "pathname": "users",
+    "description": "Users",
+    "accessLevel": [1, 4]
+  },
+  {
+    "id": 5,
+    "pathname": "clients",
+    "description": "Clients",
+    "accessLevel": [1, 4]
+  },
+  {
+    "id": 6,
+    "pathname": "order",
+    "description": "Orders",
+    "accessLevel": [1, 4]
+  },
+  {
+    "id": 7,
+    "pathname": "pos",
+    "description": "POS",
+    "accessLevel": [2]
+  }
+]

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "react-loader-spinner";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
+import defaultMenu from "../../config/defaultMenu.json";
 import auth from "../../services/authService";
 
 export default function Login() {
@@ -20,11 +21,14 @@ export default function Login() {
       const response = await auth.login(username, password);
       if (response === "OK") {
         const user = await auth.getCurrentUser();
+
         if (user.first_login_flag === true) {
           window.location = "/changepasswordform";
           setLoading(false);
         } else {
-          window.location = "/home";
+          window.location = defaultMenu
+            .filter((c) => c.accessLevel.includes(user.profileid))
+            .map((m) => m.pathname)[0];
           setLoading(false);
         }
       }

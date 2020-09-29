@@ -18,7 +18,6 @@ import Footer from "./components/includesViews/footer";
 //Authentication
 import Login from "./components/authentication/login";
 import Logout from "./components/authentication/logout";
-import ConfirmPasswordChange from "./components/authentication/confirmPasswordChange";
 
 //Partial Views
 import Home from "./components/partialViews/home";
@@ -51,7 +50,9 @@ function App() {
       <Header user={currentUser} />
       <Container fluid>
         <Row>
-          {currentUser.first_login_flag === false && <Sidebar />}
+          {currentUser.first_login_flag === false && (
+            <Sidebar user={currentUser} />
+          )}
           <Switch>
             {/* Default Route */}
             <Route exact path="/" component={Login} />
@@ -62,10 +63,6 @@ function App() {
 
             {/* Forms Routes */}
             <Route path="/changepasswordform" component={ChangePasswordForm} />
-            <Route
-              path="/confirmpasswordchange"
-              component={ConfirmPasswordChange}
-            />
 
             {/* Partials Routes */}
             <Route path="/category" component={Category} />

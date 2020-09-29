@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import menu from "../../config/menuAccess.json";
 
-export default function Sidebar() {
+export default function Sidebar({ user }) {
+  const displayMenu = menu.filter((c) =>
+    c.accessLevel.includes(user.profileid)
+  );
+
   return (
     <nav
       id="sidebarMenu"
@@ -9,58 +14,18 @@ export default function Sidebar() {
     >
       <div className="sidebar-sticky pt-3">
         <ul className="nav flex-column">
-          <li className="nav-item">
-            <Link className="nav-link active" to={"/home"}>
-              <span data-feather="home"></span>
-              Dashboard <span className="sr-only">(current)</span>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/pos"}>
-              <span data-feather="file"></span>
-              POS
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/category"}>
-              <span data-feather="file"></span>
-              Category
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/products"}>
-              <span data-feather="shopping-cart"></span>
-              Products
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/users"}>
-              <span data-feather="bar-chart-2"></span>
-              Users
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/clients"}>
-              <span data-feather="bar-chart-2"></span>
-              Clients
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"/order"}>
-              <span data-feather="bar-chart-2"></span>
-              Orders
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"#"}>
-              <span data-feather="layers"></span>
-              Reports
-            </Link>
-          </li>
+          {displayMenu.map((m) => (
+            <li className="nav-item" key={m.id}>
+              <Link className="nav-link" to={m.pathname}>
+                <span data-feather="file"></span>
+                {m.description}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
+          <span>Reports</span>
           <Link
             className="d-flex align-items-center text-muted"
             to={"#"}
