@@ -7,7 +7,7 @@ import auth from "../../services/authService";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(undefined);
+  const [loading, setLoading] = useState(false);
 
   function validateForm() {
     return username.length > 0 && password.length > 0;
@@ -30,6 +30,7 @@ export default function Login() {
       }
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
+        setLoading(false);
         toast.error(ex.response.data);
       }
     }

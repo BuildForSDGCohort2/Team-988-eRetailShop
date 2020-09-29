@@ -33,7 +33,6 @@ import Pos from "./components/partialViews/pos";
 //Forms
 import ChangePasswordForm from "./components/Forms/changePasswordForm";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 const store = configureStore();

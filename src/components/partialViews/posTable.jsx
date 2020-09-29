@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import dateFormat from "dateformat";
 import { Col, Table, Form, Button, Spinner, Card } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { FaTrashAlt, FaTrash } from "react-icons/fa";
+import { FaTrashAlt, FaTrash, FaPrint } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { itemRemoved, cartCleared } from "../../store/cart";
 import {
@@ -104,6 +105,11 @@ export default function PosTable({ userData }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const printOutInvoice = () => {
+    toast.success("Invoice printed out...");
+    window.location = "/pos";
   };
   return (
     <React.Fragment>
@@ -287,6 +293,13 @@ export default function PosTable({ userData }) {
                       </tr>
                     </tbody>
                   </table>
+                  <button
+                    type="button"
+                    className="btn btn-success  btn-lg"
+                    onClick={() => printOutInvoice()}
+                  >
+                    Print <FaPrint />
+                  </button>
                 </div>
               </div>
             </div>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PosTable from "./posTable";
 import { Form, Row, Col, ListGroup, Spinner, Card } from "react-bootstrap";
-import { toast } from "react-toastify";
 
-import { FaCartPlus } from "react-icons/fa";
+import { FaCartPlus, FaSyncAlt } from "react-icons/fa";
 import { getCategories } from "../../services/categoryService";
-import { getProductByCateg } from "../../services/productService";
+import { getProducts } from "../../services/productService";
 import { getClients } from "../../services/clientService";
 
 import { useDispatch } from "react-redux";
@@ -17,18 +16,20 @@ export default function Pos({ user }) {
   const [categories, setCategories] = useState([]);
   const [clients, setClients] = useState([]);
   const [products, setProducts] = useState([]);
+  const [productsByCateg, setProductsByCateg] = useState([]);
   const [qty, setQty] = useState(1);
   const [loadingCateg, setLoadingCateg] = useState(true);
-  const [loadingProduct, setLoadingProduct] = useState(false);
   const [clientID, setClientID] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
-      const { data: response } = await getCategories();
+      const { data: responseCategories } = await getCategories();
+      const { data: responseProducts } = await getProducts();
       const { data: clientsresponse } = await getClients();
-      if (response && clientsresponse) {
+      if (responseCategories && clientsresponse) {
         setLoadingCateg(false);
-        setCategories(response.data);
+        setCategories(responseCategories.data);
+        setProducts(responseProducts.data);
         setClients(clientsresponse.data);
       }
     }
@@ -54,18 +55,14 @@ export default function Pos({ user }) {
     }
   };
 
-  const getProducts = async (categoryId) => {
-    setLoadingProduct(true);
-    try {
-      const { data: response } = await getProductByCateg(categoryId);
-      if (response) {
-        setLoadingProduct(false);
-        setProducts(response.data);
-      }
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        toast.error("Category not found.");
-    }
+  const getProductsByCateg = (categId) => {
+    const response = products.filter(
+      (p) =>
+        p.categoryId === Number(categId) &&
+        p.inventoryonhand > p.minimumurequired
+    );
+    console.log(response);
+    setProductsByCateg(response);
   };
 
   const addItems = (itemid) => {
@@ -82,10 +79,21 @@ export default function Pos({ user }) {
       })
     );
   };
+
+  const reloadPage = () => {
+    window.location = "/pos";
+  };
   return (
     <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 className="h2">Shopping Cart </h1>
+        <button
+          type="button"
+          className="btn btn-primary  btn-sm"
+          onClick={() => reloadPage()}
+        >
+          Reload <FaSyncAlt />
+        </button>
       </div>
       <Row>
         <Col sm={2}>
@@ -98,7 +106,7 @@ export default function Pos({ user }) {
               <ListGroup.Item
                 key={c.id}
                 action
-                onClick={() => getProducts(c.id)}
+                onClick={() => getProductsByCateg(c.id)}
               >
                 {c.name}
               </ListGroup.Item>
@@ -111,19 +119,8 @@ export default function Pos({ user }) {
               <Form.Row>
                 <Col xs={5}>
                   <Form.Label column sm={8}>
-                    Quantity
-                  </Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={qty}
-                    onChange={(e) => setQty(e.target.value)}
-                  />
-                </Col>
-                <Col xs={5}>
-                  <Form.Label column sm={8}>
                     Customer
                   </Form.Label>
-
                   <Form.Control
                     as="select"
                     className="mr-sm-2"
@@ -140,15 +137,22 @@ export default function Pos({ user }) {
                     ))}
                   </Form.Control>
                 </Col>
+                <Col xs={5}>
+                  <Form.Label column sm={8}>
+                    Quantity
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={qty}
+                    onChange={(e) => setQty(e.target.value)}
+                  />
+                </Col>
               </Form.Row>
             </Card.Header>
-            <Card.Header>
-              {loadingProduct && <Spinner animation="border" size="sm" />}
-              Products
-            </Card.Header>
+            <Card.Header>Products</Card.Header>
             <Card.Body>
               <ul className="products">
-                {products.map((p) => (
+                {productsByCateg.map((p) => (
                   <li key={p.id}>
                     <h3>{p.productname}</h3>
                     <small>RWF {p.sellingPrice}</small>
