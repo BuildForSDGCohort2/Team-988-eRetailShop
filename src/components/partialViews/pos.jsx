@@ -84,95 +84,104 @@ export default function Pos({ user }) {
     window.location = "/pos";
   };
   return (
-    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Shopping Cart </h1>
-        <button
-          type="button"
-          className="btn btn-primary  btn-sm"
-          onClick={() => reloadPage()}
-        >
-          Reload <FaSyncAlt />
-        </button>
-      </div>
-      <Row>
-        <Col sm={2}>
-          <ListGroup>
-            <ListGroup.Item active>
-              {loadingCateg && <Spinner animation="border" size="sm" />}
-              Category
-            </ListGroup.Item>
-            {categories.map((c) => (
-              <ListGroup.Item
-                key={c.id}
-                action
-                onClick={() => getProductsByCateg(c.id)}
+    <div className="header  pb-6">
+      <div className="container-fluid">
+        <div className="header-body">
+          <div className="row align-items-center py-4">
+            <div className="col-lg-6 col-7">
+              <h6 className="h2  d-inline-block mb-0">Point of Sale</h6>
+            </div>
+            <div className="col-lg-6 col-5 text-right">
+              <button
+                type="button"
+                className="btn btn-primary  btn-sm"
+                onClick={() => reloadPage()}
               >
-                {c.name}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Col>
-        <Col sm={4}>
-          <Card>
-            <Card.Header bg="primary">
-              <Form.Row>
-                <Col xs={5}>
-                  <Form.Label column sm={8}>
-                    Customer
-                  </Form.Label>
-                  <Form.Control
-                    as="select"
-                    className="mr-sm-2"
-                    id="inlineFormCustomSelect"
-                    custom
-                    onChange={handleClient}
-                    value={clientID}
+                <FaSyncAlt />
+              </button>
+            </div>
+          </div>
+
+          <Row>
+            <Col sm={2}>
+              <ListGroup>
+                <ListGroup.Item active>
+                  {loadingCateg && <Spinner animation="border" size="sm" />}
+                  Category
+                </ListGroup.Item>
+                {categories.map((c) => (
+                  <ListGroup.Item
+                    key={c.id}
+                    action
+                    onClick={() => getProductsByCateg(c.id)}
                   >
-                    <option value="0">Select</option>
-                    {clients.map((client) => (
-                      <option key={client.id} value={client.id}>
-                        {client.name}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Col>
-                <Col xs={5}>
-                  <Form.Label column sm={8}>
-                    Quantity
-                  </Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={qty}
-                    onChange={(e) => setQty(e.target.value)}
-                  />
-                </Col>
-              </Form.Row>
-            </Card.Header>
-            <Card.Header>Products</Card.Header>
-            <Card.Body>
-              <ul className="products">
-                {productsByCateg.map((p) => (
-                  <li key={p.id}>
-                    <h3>{p.productname}</h3>
-                    <small>RWF {p.sellingPrice}</small>
-                    <button
-                      type="button"
-                      className="btn btn-success  btn-sm"
-                      onClick={() => addItems(p.id)}
-                    >
-                      <FaCartPlus />
-                    </button>
-                  </li>
+                    {c.name}
+                  </ListGroup.Item>
                 ))}
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col>
-          <PosTable userData={user} />
-        </Col>
-      </Row>
-    </main>
+              </ListGroup>
+            </Col>
+            <Col sm={4}>
+              <Card>
+                <Card.Header bg="primary">
+                  <Form.Row>
+                    <Col xs={5}>
+                      <Form.Label column sm={8}>
+                        Customer
+                      </Form.Label>
+                      <Form.Control
+                        as="select"
+                        className="mr-sm-2"
+                        id="inlineFormCustomSelect"
+                        custom
+                        onChange={handleClient}
+                        value={clientID}
+                      >
+                        <option value="0">Select</option>
+                        {clients.map((client) => (
+                          <option key={client.id} value={client.id}>
+                            {client.name}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Col>
+                    <Col xs={5}>
+                      <Form.Label column sm={8}>
+                        Quantity
+                      </Form.Label>
+                      <Form.Control
+                        type="number"
+                        value={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                      />
+                    </Col>
+                  </Form.Row>
+                </Card.Header>
+                <Card.Header>Products</Card.Header>
+                <Card.Body>
+                  <ul className="products">
+                    {productsByCateg.map((p) => (
+                      <li key={p.id}>
+                        <h3>{p.productname}</h3>
+                        <small>RWF {p.sellingPrice}</small>
+                        <button
+                          type="button"
+                          className="btn btn-success  btn-sm"
+                          onClick={() => addItems(p.id)}
+                        >
+                          <FaCartPlus />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <PosTable userData={user} />
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </div>
   );
 }

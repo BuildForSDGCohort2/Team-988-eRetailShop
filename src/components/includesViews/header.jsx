@@ -1,64 +1,61 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 
 export default function Header({ user }) {
   return (
-    <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <Link className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" to={"/home"}>
-        eRetailShop
-      </Link>
-      <button
-        className="navbar-toggler position-absolute d-md-none collapsed"
-        type="button"
-        data-toggle="collapse"
-        data-target="#sidebarMenu"
-        aria-controls="sidebarMenu"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      {user.first_login_flag === false && (
-        <React.Fragment>
-          <form className="form-inline my-2 my-lg-0">
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search"
-                aria-label="Search"
-                aria-describedby="button-addon2"
-              />
-              <div className="input-group-append">
+    <nav className="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+      <div className="container-fluid">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {user.first_login_flag === false && (
+            <React.Fragment>
+              <form
+                className="navbar-search navbar-search-light form-inline mr-sm-3"
+                id="navbar-search-main"
+              >
                 <button
-                  className="btn btn-outline-secondary"
                   type="button"
-                  id="button-addon2"
+                  className="close"
+                  data-action="search-close"
+                  data-target="#navbar-search-main"
+                  aria-label="Close"
                 >
-                  Search
+                  <span aria-hidden="true">×</span>
                 </button>
-              </div>
-            </div>
-          </form>
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap">
-              <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  {user.username}
-                </Dropdown.Toggle>
+              </form>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item href="/changepasswordform">
-                    Change Password
-                  </Dropdown.Item>
-                  <Dropdown.Item href="/logout">Sign out</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li>
-          </ul>
-        </React.Fragment>
-      )}
+              <ul className="navbar-nav align-items-center  ml-md-auto ">
+                <li className="nav-item d-xl-none">
+                  <div
+                    className="pr-3 sidenav-toggler sidenav-toggler-dark"
+                    data-action="sidenav-pin"
+                    data-target="#sidenav-main"
+                  >
+                    <div className="sidenav-toggler-inner">
+                      <i className="sidenav-toggler-line"></i>
+                      <i className="sidenav-toggler-line"></i>
+                      <i className="sidenav-toggler-line"></i>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul className="navbar-nav px-6">
+                <li>
+                  <DropdownButton title={user.username}>
+                    <Dropdown.Item href="/changepasswordform">
+                      <i className="ni ni-settings-gear-65"></i>
+                      <span className="nav-link-text">Change Password</span>
+                    </Dropdown.Item>
+                    <Dropdown.Item href="/logout">
+                      <i className="ni ni-user-run"></i>
+                      <span className="nav-link-text">Logout</span>
+                    </Dropdown.Item>
+                  </DropdownButton>
+                </li>
+              </ul>
+            </React.Fragment>
+          )}
+        </div>
+      </div>
     </nav>
   );
 }

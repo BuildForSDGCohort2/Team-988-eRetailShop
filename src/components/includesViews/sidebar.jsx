@@ -9,45 +9,33 @@ export default function Sidebar({ user }) {
 
   return (
     <nav
-      id="sidebarMenu"
-      className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+      className="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white"
+      id="sidenav-main"
     >
-      <div className="sidebar-sticky pt-3">
-        <ul className="nav flex-column">
-          {displayMenu.map((m) => (
-            <li className="nav-item" key={m.id}>
-              <Link className="nav-link" to={m.pathname}>
-                <span data-feather="file"></span>
-                {m.description}
-              </Link>
+      <div>
+        <h1>eRetailShop</h1>
+      </div>
+      <hr className="my-3" />
+      <div className="navbar-inner">
+        <div className="collapse navbar-collapse" id="sidenav-collapse-main">
+          <ul className="navbar-nav">
+            {displayMenu.map((m) => (
+              <li className="nav-item" key={m.id}>
+                <Link className="nav-link" to={m.pathname}>
+                  <i className={m.menuIcon}></i>
+                  <span className="nav-link-text">{m.description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <span className="nav-link active active-pro">
+                &copy; Christian (Team-988)
+              </span>
             </li>
-          ))}
-        </ul>
-
-        <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Reports</span>
-          <Link
-            className="d-flex align-items-center text-muted"
-            to={"#"}
-            aria-label="Add a new report"
-          >
-            <span data-feather="plus-circle"></span>
-          </Link>
-        </h6>
-        <ul className="nav flex-column mb-2">
-          <li className="nav-item">
-            <Link className="nav-link" to={"#"}>
-              <span data-feather="file-text"></span>
-              Current month
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to={"#"}>
-              <span data-feather="file-text"></span>
-              Last quarter
-            </Link>
-          </li>
-        </ul>
+          </ul>
+        </div>
       </div>
     </nav>
   );

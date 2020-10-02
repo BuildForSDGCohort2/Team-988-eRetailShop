@@ -114,8 +114,8 @@ export default function PosTable({ userData }) {
   return (
     <React.Fragment>
       {showCart && (
-        <Table striped bordered hover>
-          <thead>
+        <Table responsive className="table align-items-center table-flush">
+          <thead className="thead-light">
             <tr>
               <th colSpan="5">Customer : {customer.name}</th>
             </tr>
@@ -157,14 +157,16 @@ export default function PosTable({ userData }) {
           <tfoot>
             <tr>
               <td colSpan="3">
-                <button
-                  className="btn btn-success btn-sm"
-                  onClick={() => {
-                    togglePayShow(true);
-                  }}
-                >
-                  Checkout
-                </button>
+                {items.length > 0 && (
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => {
+                      togglePayShow(true);
+                    }}
+                  >
+                    Checkout
+                  </button>
+                )}
               </td>
               <td>
                 Total <strong>{subtotal()} RWF </strong>

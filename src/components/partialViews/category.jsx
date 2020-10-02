@@ -90,81 +90,97 @@ export default function Category() {
     }
   };
   return (
-    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Category</h1>
-      </div>
+    <div className="header  pb-6">
+      <div className="container-fluid">
+        <div className="header-body">
+          <div className="row align-items-center py-4">
+            <div className="col-lg-6 col-7">
+              <h6 className="h2  d-inline-block mb-0">Category</h6>
+            </div>
+          </div>
 
-      <Row>
-        <Col sm={4}>
-          <Card>
-            <Card.Header>{title} Category</Card.Header>
-            <Card.Body>
-              <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group controlId="formBasicName">
-                  <Form.Label>Category Name</Form.Label>
-                  <Form.Control
-                    name="categoryname"
-                    type="text"
-                    placeholder="Enter Category name"
-                    ref={register}
-                  />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  {title}{" "}
-                  {loadingChange && <Spinner animation="border" size="sm" />}
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col sm={8}>
-          {loading && (
-            <Loader type="ThreeDots" color="#0057e7" height="50" width="50" />
-          )}
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>Category Name</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {_DATA.currentData().map((c) => (
-                <tr key={c.id}>
-                  <td>{c.name}</td>
-                  <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
-                  <td>{dateFormat(c.updatedAt, "yyyy-mm-dd")}</td>
-                  <td>
-                    <button
-                      className="btn btn-warning btn-xs mr-1"
-                      onClick={() => handleUpdate(c.id)}
-                    >
-                      <FaPencilAlt />
-                    </button>
-                    <button
-                      className="btn btn-danger btn-xs mr-1"
-                      onClick={() => handleDelete(c.id)}
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Pagination
-            count={countPage}
-            size="large"
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePageChange}
-          />
-        </Col>
-      </Row>
-    </main>
+          <Row>
+            <Col sm={4}>
+              <Card>
+                <Card.Header>{title} Category</Card.Header>
+                <Card.Body>
+                  <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Form.Group controlId="formBasicName">
+                      <Form.Label>Category Name</Form.Label>
+                      <Form.Control
+                        name="categoryname"
+                        type="text"
+                        placeholder="Enter Category name"
+                        ref={register}
+                      />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                      {title}{" "}
+                      {loadingChange && (
+                        <Spinner animation="border" size="sm" />
+                      )}
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col sm={8}>
+              {loading && (
+                <Loader
+                  type="ThreeDots"
+                  color="#0057e7"
+                  height="50"
+                  width="50"
+                />
+              )}
+              <Table
+                responsive
+                className="table align-items-center table-flush"
+              >
+                <thead className="thead-light">
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {_DATA.currentData().map((c) => (
+                    <tr key={c.id}>
+                      <td>{c.name}</td>
+                      <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
+                      <td>{dateFormat(c.updatedAt, "yyyy-mm-dd")}</td>
+                      <td>
+                        <button
+                          className="btn btn-warning btn-xs mr-1"
+                          onClick={() => handleUpdate(c.id)}
+                        >
+                          <FaPencilAlt />
+                        </button>
+                        <button
+                          className="btn btn-danger btn-xs mr-1"
+                          onClick={() => handleDelete(c.id)}
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <Pagination
+                count={countPage}
+                size="large"
+                page={page}
+                variant="outlined"
+                shape="rounded"
+                onChange={handlePageChange}
+              />
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </div>
   );
 }

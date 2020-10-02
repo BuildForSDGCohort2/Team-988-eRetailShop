@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
-import { Table } from "react-bootstrap";
+import { Table, Row } from "react-bootstrap";
 import { Pagination } from "@material-ui/lab";
 import usePagination from "../common/usePagination";
 import Loader from "react-loader-spinner";
 import { getOrdersDetails } from "../../services/orderService";
+import { getSalesDetails } from "../../services/saleService";
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [salesByOrder, setSalesByOrder] = useState([]);
   const [loading, setLoading] = useState(true);
   let [page, setPage] = useState(1);
   const PER_PAGE = 5;
 
   useEffect(() => {
     async function fetchData() {
-      const response = await getOrdersDetails();
-      if (response) {
+      const responseOrders = await getOrdersDetails();
+      const responseSales = await getSalesDetails();
+      if (responseOrders && responseSales) {
         setLoading(false);
-        setOrders(response);
+        setOrders(responseOrders);
+        setSales(responseSales);
       }
     }
     fetchData();
@@ -32,59 +36,106 @@ export default function Order() {
     _DATA.jump(p);
   };
 
+  const getSalesByOrder = (orderID) => {
+    const response = sales.filter((s) => s.orderId === Number(orderID));
+    setSalesByOrder(response);
+  };
+
   return (
-    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Orders</h1>
+    <div className="header  pb-6">
+      <div className="container-fluid">
+        <div className="header-body">
+          <div className="row align-items-center py-4">
+            <div className="col-lg-6 col-7">
+              <h6 className="h2  d-inline-block mb-0">Orders </h6> | Click on
+              Order Number to view corresponding Sales Details
+            </div>
+          </div>
+
+          <Row>
+            {loading && (
+              <Loader type="ThreeDots" color="#0057e7" height="50" width="50" />
+            )}
+            <Table responsive className="table align-items-center table-flush">
+              <thead className="thead-light">
+                <tr>
+                  <th>Order Number</th>
+                  <th>Customer Name</th>
+                  <th>User Name</th>
+                  <th>Tax</th>
+                  <th>Net Price</th>
+                  <th>Total Price</th>
+                  <th>Payment Method</th>
+                  <th>MomoPay Tnx</th>
+                  <th>Created</th>
+                  <th>Order Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {_DATA.currentData().map((c) => (
+                  <tr key={c.id}>
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm mr-1"
+                        onClick={() => getSalesByOrder(c.id)}
+                      >
+                        {c.orderNumber}
+                      </button>
+                    </td>
+                    <td>{c.clientname}</td>
+                    <td>{c.username}</td>
+                    <td>{c.tax}</td>
+                    <td>{c.netPrice}</td>
+                    <td>{c.totalPrice}</td>
+                    <td>{c.paymentMethod}</td>
+                    <td>{c.externalId}</td>
+                    <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
+                    <td>
+                      {c.orderStatus === true ? "Completed" : "Cancelled"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Pagination
+              color="primary"
+              count={countPage}
+              page={page}
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          </Row>
+          <div className="row align-items-center py-4">
+            <div className="col-lg-6 col-7">
+              <h6 className="h2  d-inline-block mb-0">Sales </h6>
+            </div>
+          </div>
+          <Row>
+            <Table responsive className="table align-items-center table-flush">
+              <thead className="thead-light">
+                <tr>
+                  <th>Product Name</th>
+                  <th>Sales Number</th>
+                  <th>Price Unit</th>
+                  <th>Total Price</th>
+                  <th>Sale Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salesByOrder.map((c) => (
+                  <tr key={c.id}>
+                    <td>{c.productname}</td>
+                    <td>{c.sales}</td>
+                    <td>{c.sellingPrice}</td>
+                    <td>{c.price}</td>
+                    <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Row>
+        </div>
       </div>
-      {loading && (
-        <Loader type="ThreeDots" color="#0057e7" height="50" width="50" />
-      )}
-      <div>
-        Click on Order Number to view corresponding Sales Details
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Order Number</th>
-              <th>Customer Name</th>
-              <th>User Name</th>
-              <th>Tax</th>
-              <th>Net Price</th>
-              <th>Total Price</th>
-              <th>Payment Method</th>
-              <th>MomoPay Tnx</th>
-              <th>Created</th>
-              <th>Order Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {_DATA.currentData().map((c) => (
-              <tr key={c.id}>
-                <td>
-                  <Link to={"/sales/" + c.id}>{c.orderNumber}</Link>
-                </td>
-                <td>{c.clientname}</td>
-                <td>{c.username}</td>
-                <td>{c.tax}</td>
-                <td>{c.netPrice}</td>
-                <td>{c.totalPrice}</td>
-                <td>{c.paymentMethod}</td>
-                <td>{c.externalId}</td>
-                <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
-                <td>{c.orderStatus === true ? "Completed" : "Cancelled"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Pagination
-          count={countPage}
-          size="large"
-          page={page}
-          variant="outlined"
-          shape="rounded"
-          onChange={handlePageChange}
-        />
-      </div>
-    </main>
+    </div>
   );
 }

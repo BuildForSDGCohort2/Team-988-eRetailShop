@@ -107,130 +107,147 @@ export default function Users() {
   };
 
   return (
-    <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Users</h1>
+    <div className="header  pb-6">
+      <div className="container-fluid">
+        <div className="header-body">
+          <div className="row align-items-center py-4">
+            <div className="col-lg-6 col-7">
+              <h6 className="h2  d-inline-block mb-0">Users</h6>
+            </div>
+          </div>
+
+          <Row>
+            <Col sm={4}>
+              <Card>
+                <Card.Header>{title} User</Card.Header>
+                <Card.Body>
+                  <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Form.Group controlId="formBasicNames">
+                      <Form.Label>Names</Form.Label>
+                      <Form.Control
+                        name="names"
+                        type="text"
+                        placeholder="Enter names"
+                        ref={register}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicUsername">
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control
+                        name="username"
+                        type="text"
+                        placeholder="Enter username"
+                        ref={register}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control
+                        name="email"
+                        type="email"
+                        placeholder="Enter email"
+                        ref={register}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPhone">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control
+                        name="phone"
+                        type="text"
+                        placeholder="Enter phone"
+                        ref={register}
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="formBasicProfile">
+                      <Form.Label>Profile</Form.Label>
+                      <Form.Control
+                        as="select"
+                        onChange={handleProfile}
+                        value={profileID}
+                      >
+                        <option value="0">Select</option>
+                        {profiles.map((profile) => (
+                          <option key={profile.id} value={profile.id}>
+                            {profile.profilename}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                      {title}
+                      {loadingChange && (
+                        <Spinner animation="border" size="sm" />
+                      )}
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col sm={8}>
+              {loading && (
+                <Loader
+                  type="ThreeDots"
+                  color="#0057e7"
+                  height="50"
+                  width="50"
+                />
+              )}
+
+              <Table
+                responsive
+                className="table align-items-center table-flush"
+              >
+                <thead className="thead-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Profile</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {_DATA.currentData().map((u) => (
+                    <tr key={u.id}>
+                      <td>{u.name}</td>
+                      <td>{u.username}</td>
+                      <td>{u.phone}</td>
+                      <td>{u.email}</td>
+                      <td>{u.profilename}</td>
+                      <td>{u.status === true ? "Active" : "Disabled"}</td>
+                      <td>
+                        <button
+                          className="btn btn-warning btn-xs mr-1"
+                          onClick={() => handleUpdate(u.id)}
+                        >
+                          <FaPencilAlt />
+                        </button>
+                        <button
+                          className="btn btn-danger btn-xs mr-1"
+                          onClick={() => handleDelete(u.id)}
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <Pagination
+                count={countPage}
+                size="large"
+                page={page}
+                variant="outlined"
+                shape="rounded"
+                onChange={handlePageChange}
+              />
+            </Col>
+          </Row>
+        </div>
       </div>
-      <Row>
-        <Col sm={4}>
-          <Card>
-            <Card.Header>{title} User</Card.Header>
-            <Card.Body>
-              <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group controlId="formBasicNames">
-                  <Form.Label>Names</Form.Label>
-                  <Form.Control
-                    name="names"
-                    type="text"
-                    placeholder="Enter names"
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formBasicUsername">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control
-                    name="username"
-                    type="text"
-                    placeholder="Enter username"
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    name="email"
-                    type="email"
-                    placeholder="Enter email"
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formBasicPhone">
-                  <Form.Label>Phone</Form.Label>
-                  <Form.Control
-                    name="phone"
-                    type="text"
-                    placeholder="Enter phone"
-                    ref={register}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formBasicProfile">
-                  <Form.Label>Profile</Form.Label>
-                  <Form.Control
-                    as="select"
-                    onChange={handleProfile}
-                    value={profileID}
-                  >
-                    <option value="0">Select</option>
-                    {profiles.map((profile) => (
-                      <option key={profile.id} value={profile.id}>
-                        {profile.profilename}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  {title}
-                  {loadingChange && <Spinner animation="border" size="sm" />}
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col sm={8}>
-          {loading && (
-            <Loader type="ThreeDots" color="#0057e7" height="50" width="50" />
-          )}
-
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Profile</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {_DATA.currentData().map((u) => (
-                <tr key={u.id}>
-                  <td>{u.name}</td>
-                  <td>{u.username}</td>
-                  <td>{u.phone}</td>
-                  <td>{u.email}</td>
-                  <td>{u.profilename}</td>
-                  <td>{u.status === true ? "Active" : "Disabled"}</td>
-                  <td>
-                    <button
-                      className="btn btn-warning btn-xs mr-1"
-                      onClick={() => handleUpdate(u.id)}
-                    >
-                      <FaPencilAlt />
-                    </button>
-                    <button
-                      className="btn btn-danger btn-xs mr-1"
-                      onClick={() => handleDelete(u.id)}
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Pagination
-            count={countPage}
-            size="large"
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            onChange={handlePageChange}
-          />
-        </Col>
-      </Row>
-    </main>
+    </div>
   );
 }

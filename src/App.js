@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import { Container, Row } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,7 +12,6 @@ import auth from "./services/authService";
 //Includes Views
 import Header from "./components/includesViews/header";
 import Sidebar from "./components/includesViews/sidebar";
-import Footer from "./components/includesViews/footer";
 
 //Authentication
 import Login from "./components/authentication/login";
@@ -26,7 +24,6 @@ import Products from "./components/partialViews/products";
 import Users from "./components/partialViews/users";
 import Clients from "./components/partialViews/clients";
 import Order from "./components/partialViews/order";
-import Sales from "./components/partialViews/sales";
 import Pos from "./components/partialViews/pos";
 
 //Forms
@@ -46,40 +43,38 @@ function App() {
 
   return (
     <React.Fragment>
-      <ToastContainer />
-      <Header user={currentUser} />
-      <Container fluid>
-        <Row>
-          {currentUser.first_login_flag === false && (
-            <Sidebar user={currentUser} />
-          )}
-          <Switch>
-            {/* Default Route */}
-            <Route exact path="/" component={Login} />
-            {/* Authentication Routes */}
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/home" component={Home} />
+      {currentUser.first_login_flag === false && <Sidebar user={currentUser} />}
 
-            {/* Forms Routes */}
-            <Route path="/changepasswordform" component={ChangePasswordForm} />
+      <div className="main-content" id="panel">
+        <ToastContainer />
 
-            {/* Partials Routes */}
-            <Route path="/category" component={Category} />
-            <Route path="/products" component={Products} />
-            <Route path="/users" component={Users} />
-            <Route path="/clients" component={Clients} />
-            <Route path="/sales/:id" component={Sales} />
-            <Route path="/order" component={Order} />
-            <Provider store={store}>
-              <Route path="/pos">
-                <Pos user={currentUser} />
-              </Route>
-            </Provider>
-          </Switch>
-        </Row>
-      </Container>
-      <Footer />
+        {currentUser.first_login_flag === false && (
+          <Header user={currentUser} />
+        )}
+        <Switch>
+          {/* Default Route */}
+          <Route exact path="/" component={Login} />
+          {/* Authentication Routes */}
+          <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/home" component={Home} />
+
+          {/* Forms Routes */}
+          <Route path="/changepasswordform" component={ChangePasswordForm} />
+
+          {/* Partials Routes */}
+          <Route path="/category" component={Category} />
+          <Route path="/products" component={Products} />
+          <Route path="/users" component={Users} />
+          <Route path="/clients" component={Clients} />
+          <Route path="/order" component={Order} />
+          <Provider store={store}>
+            <Route path="/pos">
+              <Pos user={currentUser} />
+            </Route>
+          </Provider>
+        </Switch>
+      </div>
     </React.Fragment>
   );
 }
