@@ -43,11 +43,11 @@ export default function Login() {
     <React.Fragment>
       <nav
         id="navbar-main"
-        class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light"
+        className="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light"
       >
-        <div class="container">
+        <div className="container">
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbar-collapse"
@@ -55,18 +55,18 @@ export default function Login() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <div
-            class="navbar-collapse navbar-custom-collapse collapse"
+            className="navbar-collapse navbar-custom-collapse collapse"
             id="navbar-collapse"
           >
-            <div class="navbar-collapse-header">
-              <div class="row">
-                <div class="col-6 collapse-close">
+            <div className="navbar-collapse-header">
+              <div className="row">
+                <div className="col-6 collapse-close">
                   <button
                     type="button"
-                    class="navbar-toggler"
+                    className="navbar-toggler"
                     data-toggle="collapse"
                     data-target="#navbar-collapse"
                     aria-controls="navbar-collapse"
@@ -79,32 +79,32 @@ export default function Login() {
                 </div>
               </div>
             </div>
-            <hr class="d-lg-none" />
+            <hr className="d-lg-none" />
           </div>
         </div>
       </nav>
 
-      <div class="main-content">
-        <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
-          <div class="container">
-            <div class="header-body text-center mb-7">
-              <div class="row justify-content-center"></div>
+      <div className="main-content">
+        <div className="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+          <div className="container">
+            <div className="header-body text-center mb-7">
+              <div className="row justify-content-center"></div>
             </div>
           </div>
         </div>
 
-        <div class="container mt--8 pb-5">
-          <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-              <div class="card bg-secondary border-0 mb-0">
-                <div class="card-header bg-transparent pb-5">
-                  <div class="text-muted text-center mt-2 mb-3">
-                    <h1 class="text-white">eRetailShop</h1>
+        <div className="container mt--8 pb-5">
+          <div className="row justify-content-center">
+            <div className="col-lg-5 col-md-7">
+              <div className="card bg-secondary border-0 mb-0">
+                <div className="card-header bg-transparent pb-5">
+                  <div className="text-muted text-center mt-2 mb-3">
+                    <h1 className="text-white">eRetailShop</h1>
                   </div>
                 </div>
-                <div class="card-body px-lg-5 py-lg-5">
-                  <div class="text-center text-muted mb-4">
-                    <h3 class="text-white">Sign in </h3>
+                <div className="card-body px-lg-5 py-lg-5">
+                  <div className="text-center text-muted mb-4">
+                    <h3 className="text-white">Sign in </h3>
                     {loading && (
                       <Loader
                         type="ThreeDots"
@@ -115,11 +115,11 @@ export default function Login() {
                     )}
                   </div>
                   <form onSubmit={handleSubmit}>
-                    <div class="form-group mb-3">
-                      <div class="input-group input-group-merge input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="ni ni-email-83"></i>
+                    <div className="form-group mb-3">
+                      <div className="input-group input-group-merge input-group-alternative">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="ni ni-email-83"></i>
                           </span>
                         </div>
                         <FormControl
@@ -131,11 +131,11 @@ export default function Login() {
                         />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="input-group input-group-merge input-group-alternative">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="ni ni-lock-circle-open"></i>
+                    <div className="form-group">
+                      <div className="input-group input-group-merge input-group-alternative">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="ni ni-lock-circle-open"></i>
                           </span>
                         </div>
 
@@ -148,9 +148,9 @@ export default function Login() {
                       </div>
                     </div>
 
-                    <div class="text-center">
+                    <div className="text-center">
                       <button
-                        class="btn btn-primary my-4"
+                        className="btn btn-primary my-4"
                         disabled={!validateForm()}
                         type="submit"
                       >
