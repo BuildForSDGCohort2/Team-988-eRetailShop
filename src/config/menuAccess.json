@@ -51,7 +51,7 @@
     "id": 7,
     "pathname": "pos",
     "description": "POS",
-    "accessLevel": [1, 2],
+    "accessLevel": [2],
     "menuIcon": "ni ni-circle-08 text-pink",
     "defaultMenuItem": ""
   }

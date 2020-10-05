@@ -43,14 +43,12 @@ function App() {
 
   return (
     <React.Fragment>
-      {currentUser.first_login_flag === false && <Sidebar user={currentUser} />}
+      <Sidebar user={currentUser} />
 
       <div className="main-content" id="panel">
         <ToastContainer />
 
-        {currentUser.first_login_flag === false && (
-          <Header user={currentUser} />
-        )}
+        <Header user={currentUser} />
         <Switch>
           {/* Default Route */}
           <Route exact path="/" component={Login} />
