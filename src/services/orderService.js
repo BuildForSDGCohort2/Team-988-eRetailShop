@@ -31,6 +31,12 @@ export async function getOrdersDetails() {
   const { data: orders } = await http.get(apiEndpoint, config);
   const { data: clients } = await http.get(clientsApiEndpoint, config);
   const { data: users } = await http.get(userApiEndpoint, config);
+
+  const ordersTransformed = orders.data.map(({ id, createdAt, ...rest }) => ({
+    ...rest,
+    orderCreatedAt: createdAt,
+  }));
+
   const clientsTransformed = clients.data.map(({ id, name, ...rest }) => ({
     ...rest,
     clientname: name,
@@ -41,7 +47,7 @@ export async function getOrdersDetails() {
     uid: id,
   }));
 
-  return orders.data.map((t1) => ({
+  return ordersTransformed.data.map((t1) => ({
     ...t1,
     ...clientsTransformed.find((t2) => t2.cid === t1.customerId),
     ...usersTransformed.find((t3) => t3.uid === t1.sellerId),
