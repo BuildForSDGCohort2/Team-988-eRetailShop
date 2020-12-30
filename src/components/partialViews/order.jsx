@@ -28,6 +28,7 @@ export default function Order() {
     fetchData();
   }, []);
 
+  console.log(orders);
   const countPage = Math.ceil(orders.length / PER_PAGE);
   const _DATA = usePagination(orders, PER_PAGE);
 
