@@ -47,9 +47,11 @@ export async function getOrdersDetails() {
     uid: id,
   }));
 
-  return ordersTransformed.data.map((t1) => ({
+  const rs = ordersTransformed.data.map((t1) => ({
     ...t1,
     ...clientsTransformed.find((t2) => t2.cid === t1.customerId),
     ...usersTransformed.find((t3) => t3.uid === t1.sellerId),
   }));
+  console.log(rs);
+  return rs;
 }
