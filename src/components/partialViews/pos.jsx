@@ -61,7 +61,6 @@ export default function Pos({ user }) {
         p.categoryId === Number(categId) &&
         p.inventoryonhand > p.minimumurequired
     );
-    console.log(response);
     setProductsByCateg(response);
   };
 

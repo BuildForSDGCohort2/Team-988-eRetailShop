@@ -106,21 +106,6 @@ export default function Login() {
                       store , such as inventory management and point of sale
                       (POS).
                     </p>
-                    <h5 className="text-white">
-                      To use this demo, below are the users and password to
-                      login.
-                    </h5>
-                    <span className="text-white">
-                      - Username : admin , password : 123456
-                    </span>
-                    <br />
-                    <span className="text-white">
-                      - Username : cashier , password : 123456
-                    </span>
-                    <br />
-                    <span className="text-white">
-                      - Username : storemanager , password : 123456
-                    </span>
                   </div>
                 </div>
               </div>

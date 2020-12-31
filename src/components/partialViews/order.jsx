@@ -89,7 +89,7 @@ export default function Order() {
                     <td>{c.totalPrice}</td>
                     <td>{c.paymentMethod}</td>
                     <td>{c.externalId}</td>
-                    <td>{dateFormat(c.orderCreatedAt, "yyyy-mm-dd")}</td>
+                    <td>{dateFormat(c.createdAt, "yyyy-mm-dd")}</td>
                     <td>
                       {c.orderStatus === true ? "Completed" : "Cancelled"}
                     </td>

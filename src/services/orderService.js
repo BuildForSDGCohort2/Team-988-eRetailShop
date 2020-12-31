@@ -32,22 +32,30 @@ export async function getOrdersDetails() {
   const { data: clients } = await http.get(clientsApiEndpoint, config);
   const { data: users } = await http.get(userApiEndpoint, config);
 
-  const ordersTransformed = orders.data.map(({ id, createdAt, ...rest }) => ({
+  /*const ordersTransformed = orders.data.map(({ id, createdAt, ...rest }) => ({
     ...rest,
     orderCreatedAt: createdAt,
-  }));
+  }));*/
 
-  const clientsTransformed = clients.data.map(({ id, name, ...rest }) => ({
-    ...rest,
-    clientname: name,
-    cid: id,
-  }));
-  const usersTransformed = users.data.map(({ id, ...rest }) => ({
-    ...rest,
-    uid: id,
-  }));
+  const clientsTransformed = clients.data.map(
+    ({ id, name, createdAt, updatedAt, ...rest }) => ({
+      ...rest,
+      clientname: name,
+      cid: id,
+      clientcreatedAt: createdAt,
+      clientupdatedAt: updatedAt,
+    })
+  );
+  const usersTransformed = users.data.map(
+    ({ id, createdAt, updatedAt, ...rest }) => ({
+      ...rest,
+      uid: id,
+      usercreatedAt: createdAt,
+      userupdatedAt: updatedAt,
+    })
+  );
 
-  return ordersTransformed.data.map((t1) => ({
+  return orders.data.map((t1) => ({
     ...t1,
     ...clientsTransformed.find((t2) => t2.cid === t1.customerId),
     ...usersTransformed.find((t3) => t3.uid === t1.sellerId),
