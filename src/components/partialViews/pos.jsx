@@ -72,8 +72,8 @@ export default function Pos({ user }) {
           productID: product[0].id,
           productName: product[0].productname,
           price_unit: product[0].sellingPrice,
-          quantity: qty,
-          totalPrice: product[0].sellingPrice * qty,
+          quantity: 1,
+          totalPrice: product[0].sellingPrice * 1,
         },
       })
     );
@@ -143,16 +143,7 @@ export default function Pos({ user }) {
                         ))}
                       </Form.Control>
                     </Col>
-                    <Col xs={5}>
-                      <Form.Label column sm={8}>
-                        Quantity
-                      </Form.Label>
-                      <Form.Control
-                        type="number"
-                        value={qty}
-                        onChange={(e) => setQty(e.target.value)}
-                      />
-                    </Col>
+                    <Col xs={5}></Col>
                   </Form.Row>
                 </Card.Header>
                 <Card.Header>Products</Card.Header>

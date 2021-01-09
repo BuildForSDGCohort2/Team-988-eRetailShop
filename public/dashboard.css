@@ -192,5 +192,24 @@ ul.products form button {
 }
 
 .smaller-input {
-  width: 40px;
+  width: 50;
+}
+
+table.pos tbody tr td input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  border-bottom: 1px dashed black;
+  text-align: center;
+}
+
+table.pos tbody tr td input:focus {
+  outline-color: transparent;
+}
+
+table.pos tbody tr td input::-webkit-outer-spin-button,
+table.pos tbody tr td input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }

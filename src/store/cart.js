@@ -23,10 +23,16 @@ const slice = createSlice({
       cart.items = cart.items.filter((c) => c.id !== itemID);
     },
     itemUpdated: (cart, action) => {
-      const { itemID, quantityItems, newPrice } = action.payload;
+      const { itemID, itemtype } = action.payload;
       const item = cart.items.find((c) => c.id === itemID);
-      item.quantity = quantityItems;
-      item.totalPrice = newPrice;
+      if (itemtype === "plus") {
+        item.quantity = item.quantity + 1;
+        item.totalPrice = item.price_unit * item.quantity;
+      }
+      if (itemtype === "minus" && item.quantity > 1) {
+        item.quantity = item.quantity - 1;
+        item.totalPrice = item.price_unit * item.quantity;
+      }
     },
     cartCleared: (cart, action) => {
       cart.items = initialState.items;

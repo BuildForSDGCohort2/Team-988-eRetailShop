@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import dateFormat from "dateformat";
-import { Col, Table, Form, Button, Spinner, Card } from "react-bootstrap";
+import {
+  Col,
+  Table,
+  Form,
+  Button,
+  Spinner,
+  Card,
+  InputGroup,
+} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { FaTrashAlt, FaTrash, FaPrint } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { itemRemoved, cartCleared } from "../../store/cart";
+import { itemUpdated, itemRemoved, cartCleared } from "../../store/cart";
 import {
   processPayment,
   getTransactionStatus,
@@ -139,9 +147,40 @@ export default function PosTable({ userData }) {
             {items.map((c) => (
               <tr key={c.id}>
                 <td>{c.productName}</td>
-                <td>{c.price_unit}</td>
-                <td>{c.quantity}</td>
-                <td>{c.totalPrice} RWF</td>
+                <td className="col-md-2">{c.price_unit}</td>
+                <td>
+                  <InputGroup className="mb-3">
+                    <InputGroup.Prepend>
+                      <button
+                        className="btn btn-danger  btn-sm btn-number"
+                        data-type="minus"
+                        onClick={() =>
+                          dispatch(
+                            itemUpdated({ itemID: c.id, itemtype: "minus" })
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <button className="btn  btn-sm " disabled="disabled">
+                        {c.quantity}
+                      </button>
+                      <button
+                        className="btn btn-success  btn-sm btn-number"
+                        data-type="plus"
+                        onClick={() =>
+                          dispatch(
+                            itemUpdated({ itemID: c.id, itemtype: "plus" })
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </InputGroup.Prepend>
+                  </InputGroup>
+                </td>
+
+                <td className="col-md-2">{c.totalPrice} RWF</td>
                 <td>
                   <Button
                     variant="danger"
