@@ -36,6 +36,7 @@ const slice = createSlice({
     },
     cartCleared: (cart, action) => {
       cart.items = initialState.items;
+      cart.customer = initialState.customer;
     },
   },
 });

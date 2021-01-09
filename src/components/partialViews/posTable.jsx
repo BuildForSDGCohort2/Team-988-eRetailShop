@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import dateFormat from "dateformat";
 import {
@@ -20,6 +20,7 @@ import {
 } from "../../services/momopayService";
 import { createOrder } from "../../services/orderService";
 import { createSale } from "../../services/saleService";
+import { getClients } from "../../services/clientService";
 
 export default function PosTable({ userData }) {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ export default function PosTable({ userData }) {
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
   const [orderNumber, setorderNumber] = useState("");
+  const [clients, setClients] = useState([]);
+  const [customer, setCustomer] = useState({});
+  const [clientID, setClientID] = useState(0);
 
   const [showCart, toggleCartShow] = useState(true);
   const [showPay, togglePayShow] = useState(false);
@@ -35,7 +39,43 @@ export default function PosTable({ userData }) {
 
   const [invoiceData, setInvoiceData] = useState([]);
   const { register, handleSubmit } = useForm();
-  const { items, customer } = useSelector((state) => state.entities.cart);
+  const { items } = useSelector((state) => state.entities.cart);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data: clientsresponse } = await getClients();
+      if (clientsresponse) {
+        setClients(clientsresponse.data);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleClient = (e) => {
+    setClientID(e.target.value);
+    const clientid = e.target.value;
+    if (Number(clientid) > 0) {
+      const cl = clients.filter((c) => c.id === Number(clientid));
+      setCustomer({
+        id: cl[0].id,
+        name: cl[0].name,
+        email: cl[0].email,
+        phone: cl[0].phone,
+        address: cl[0].address,
+      });
+      /*dispatch(
+        customerAdded({
+          customerItem: {
+            id: cl[0].id,
+            name: cl[0].name,
+            email: cl[0].email,
+            phone: cl[0].phone,
+            address: cl[0].address,
+          },
+        })
+      );*/
+    }
+  };
 
   const subtotal = () => {
     return items.reduce((result, c) => result + c.totalPrice, 0);
@@ -117,7 +157,12 @@ export default function PosTable({ userData }) {
 
   const printOutInvoice = () => {
     toast.success("Invoice printed out...");
-    window.location = "/pos";
+    //window.location = "/pos";
+    toggleInvoiceShow(false);
+    setInvoiceData([]);
+    dispatch(cartCleared());
+    setClientID(0);
+    toggleCartShow(true);
   };
   return (
     <React.Fragment>
@@ -125,7 +170,31 @@ export default function PosTable({ userData }) {
         <Table responsive className="table align-items-center table-flush">
           <thead className="thead-light">
             <tr>
-              <th colSpan="5">Customer : {customer.name}</th>
+              <th colSpan="5">
+                <Form.Row>
+                  <Col xs={5}>
+                    <Form.Label column sm={8}>
+                      Customer
+                    </Form.Label>
+                    <Form.Control
+                      as="select"
+                      className="mr-sm-2"
+                      id="inlineFormCustomSelect"
+                      custom
+                      onChange={handleClient}
+                      value={clientID}
+                    >
+                      <option value="0">Select</option>
+                      {clients.map((client) => (
+                        <option key={client.id} value={client.id}>
+                          {client.name}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Col>
+                  <Col xs={5}></Col>
+                </Form.Row>
+              </th>
             </tr>
             <tr>
               <th>Label </th>

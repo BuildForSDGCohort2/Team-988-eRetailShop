@@ -1,59 +1,34 @@
 import React, { useState, useEffect } from "react";
 import PosTable from "./posTable";
-import { Form, Row, Col, ListGroup, Spinner, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Spinner, Card } from "react-bootstrap";
 
 import { FaCartPlus, FaSyncAlt } from "react-icons/fa";
 import { getCategories } from "../../services/categoryService";
 import { getProducts } from "../../services/productService";
-import { getClients } from "../../services/clientService";
 
 import { useDispatch } from "react-redux";
-import { itemsAdded, customerAdded } from "../../store/cart";
+import { itemsAdded } from "../../store/cart";
 
 export default function Pos({ user }) {
   const dispatch = useDispatch();
 
   const [categories, setCategories] = useState([]);
-  const [clients, setClients] = useState([]);
   const [products, setProducts] = useState([]);
   const [productsByCateg, setProductsByCateg] = useState([]);
-  const [qty, setQty] = useState(1);
   const [loadingCateg, setLoadingCateg] = useState(true);
-  const [clientID, setClientID] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const { data: responseCategories } = await getCategories();
       const { data: responseProducts } = await getProducts();
-      const { data: clientsresponse } = await getClients();
-      if (responseCategories && clientsresponse) {
+      if (responseCategories && responseProducts) {
         setLoadingCateg(false);
         setCategories(responseCategories.data);
         setProducts(responseProducts.data);
-        setClients(clientsresponse.data);
       }
     }
     fetchData();
   }, []);
-
-  const handleClient = (e) => {
-    setClientID(e.target.value);
-    const clientid = e.target.value;
-    if (Number(clientid) > 0) {
-      const cl = clients.filter((c) => c.id === Number(clientid));
-      dispatch(
-        customerAdded({
-          customerItem: {
-            id: cl[0].id,
-            name: cl[0].name,
-            email: cl[0].email,
-            phone: cl[0].phone,
-            address: cl[0].address,
-          },
-        })
-      );
-    }
-  };
 
   const getProductsByCateg = (categId) => {
     const response = products.filter(
@@ -121,31 +96,6 @@ export default function Pos({ user }) {
             </Col>
             <Col sm={4}>
               <Card>
-                <Card.Header bg="primary">
-                  <Form.Row>
-                    <Col xs={5}>
-                      <Form.Label column sm={8}>
-                        Customer
-                      </Form.Label>
-                      <Form.Control
-                        as="select"
-                        className="mr-sm-2"
-                        id="inlineFormCustomSelect"
-                        custom
-                        onChange={handleClient}
-                        value={clientID}
-                      >
-                        <option value="0">Select</option>
-                        {clients.map((client) => (
-                          <option key={client.id} value={client.id}>
-                            {client.name}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Col>
-                    <Col xs={5}></Col>
-                  </Form.Row>
-                </Card.Header>
                 <Card.Header>Products</Card.Header>
                 <Card.Body>
                   <ul className="products">
